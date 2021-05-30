@@ -41,7 +41,7 @@ public class Gamemode {
 	}
 
 	private int generic(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.debug("Command 'gm' activated");
+		Main.log("Command 'gm' activated");
 		String modeInput = StringArgumentType.getString(context, "mode");
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
@@ -54,7 +54,7 @@ public class Gamemode {
 		}
 		if (mode == null) {
 			sendMessage(player, false, modeInput);
-			TranslatableText invalid = new TranslatableText("command.error.invalidGamemode");
+			TranslatableText invalid = new TranslatableText("command.error.gamemode.invalid");
 			throw new SimpleCommandExceptionType(invalid).create();
 		}
 
@@ -63,7 +63,7 @@ public class Gamemode {
 	}
 
 	private int survival(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.debug("Command 'gms' activated");
+		Main.log("Command 'gms' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		player.setGameMode(GameMode.SURVIVAL);
 		Gamemode.sendMessage(player, true, "Survival");
@@ -71,7 +71,7 @@ public class Gamemode {
 	}
 
 	private int creative(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.debug("Command 'gmc' activated");
+		Main.log("Command 'gmc' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		player.setGameMode(GameMode.CREATIVE);
 		Gamemode.sendMessage(player, true, "Creative");
@@ -79,7 +79,7 @@ public class Gamemode {
 	}
 
 	private int adventure(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.debug("Command 'gma' activated");
+		Main.log("Command 'gma' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		player.setGameMode(GameMode.ADVENTURE);
 		Gamemode.sendMessage(player, true, "Adventure");
@@ -87,7 +87,7 @@ public class Gamemode {
 	}
 
 	private int spectator(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.debug("Command 'gmsp' activated");
+		Main.log("Command 'gmsp' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		player.setGameMode(GameMode.SPECTATOR);
 		Gamemode.sendMessage(player, true, "Spectator");
