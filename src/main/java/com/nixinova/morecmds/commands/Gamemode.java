@@ -4,14 +4,18 @@ import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
 
+import com.nixinova.morecmds.Main;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.nixinova.morecmds.Main;
-
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
 import net.minecraft.world.GameMode;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 
 public class Gamemode {
 
@@ -38,41 +42,61 @@ public class Gamemode {
 
 	private int generic(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.debug("Command 'gm' activated");
-		String input = StringArgumentType.getString(context, "mode");
+		String modeInput = StringArgumentType.getString(context, "mode");
+
+		ServerPlayerEntity player = context.getSource().getPlayer();
 		GameMode mode = null;
-		switch (input.toLowerCase()) {
+		switch (modeInput.toLowerCase()) {
 			case "survival": case "s": case "0": mode = GameMode.SURVIVAL; break;
 			case "creative": case "c": case "1": mode = GameMode.CREATIVE; break;
 			case "adventure": case "a": case "2": mode = GameMode.ADVENTURE; break;
 			case "spectator": case "sp": case "3": mode = GameMode.SPECTATOR; break;
 		}
-		if (mode == null) return -1;
-		context.getSource().getPlayer().setGameMode(mode);
-		return 1;
+		if (mode == null) {
+			sendMessage(player, false, modeInput);
+			TranslatableText invalid = new TranslatableText("command.error.invalidGamemode");
+			throw new SimpleCommandExceptionType(invalid).create();
+		}
+
+		player.setGameMode(mode);
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private int survival(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.debug("Command 'gms' activated");
-		context.getSource().getPlayer().setGameMode(GameMode.SURVIVAL);
-		return 1;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		player.setGameMode(GameMode.SURVIVAL);
+		Gamemode.sendMessage(player, true, "Survival");
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private int creative(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.debug("Command 'gmc' activated");
-		context.getSource().getPlayer().setGameMode(GameMode.CREATIVE);
-		return 1;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		player.setGameMode(GameMode.CREATIVE);
+		Gamemode.sendMessage(player, true, "Creative");
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private int adventure(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.debug("Command 'gma' activated");
-		context.getSource().getPlayer().setGameMode(GameMode.ADVENTURE);
-		return 1;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		player.setGameMode(GameMode.ADVENTURE);
+		Gamemode.sendMessage(player, true, "Adventure");
+		return Command.SINGLE_SUCCESS;
 	}
 
 	private int spectator(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.debug("Command 'gmsp' activated");
-		context.getSource().getPlayer().setGameMode(GameMode.SPECTATOR);
-		return 1;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		player.setGameMode(GameMode.SPECTATOR);
+		Gamemode.sendMessage(player, true, "Spectator");
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static void sendMessage(ServerPlayerEntity player, boolean success, String gamemode) {
+		String message = success ? "command.success.gamemode" : "command.fail.gamemode";
+		player.sendSystemMessage(new TranslatableText(message, gamemode), Util.NIL_UUID);
 	}
 
 }

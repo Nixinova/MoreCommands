@@ -1,6 +1,10 @@
 # More Commands Mod
 
+![MoreCMDs](src/main/resources/assets/morecmds/icon.png)
+
 Adds various useful commands to the game.
+
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/morecmds)
 
 ## Commands
 - `/gm <gamemode>`: Change gamemode.
