@@ -1,0 +1,5 @@
+# General
+* text=auto
+
+# Linguist
+gradle.bat linguist-vendored

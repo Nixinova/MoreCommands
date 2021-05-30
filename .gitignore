@@ -1,0 +1,16 @@
+# Fabric
+run/
+
+# Gradle
+.gradle/
+build/
+classes/
+out/
+*.jar
+
+# VSCode
+.settings/
+.vscode/
+bin/
+.classpath
+.project

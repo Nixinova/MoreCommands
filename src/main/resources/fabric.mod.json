@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "morecmds",
+	"version": "${version}",
+	"name": "More Commands",
+	"description": "Adds various useful commands to the game",
+	"authors": [
+		"Nixinova"
+	],
+	"contact": {
+		"homepage": "https://nixinova.com/",
+		"sources": "https://github.com/Nixinova/MoreCommands"
+	},
+	"license": "ISC",
+	"icon": "assets/modid/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.nixinova.morecmds.Main"
+		]
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": ">=0.7.4",
+		"fabric": "*",
+		"minecraft": "1.16.x"
+	},
+	"suggests": {}
+}
