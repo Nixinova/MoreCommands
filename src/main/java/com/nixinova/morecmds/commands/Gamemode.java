@@ -2,14 +2,13 @@ package com.nixinova.morecmds.commands;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
-import static com.mojang.brigadier.arguments.StringArgumentType.string;
+import static net.minecraft.command.argument.EntityArgumentType.player;
 
 import com.nixinova.morecmds.Main;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
@@ -21,10 +20,6 @@ public class Gamemode {
 
 	public void register() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
-			// Generic
-			dispatcher.register(literal("gm").then(
-				argument("mode", string()).executes(this::generic)
-			));
 			// Survival
 			dispatcher.register(literal("gms").executes(this::survival));
 			dispatcher.register(literal("gm0").executes(this::survival));
@@ -37,29 +32,22 @@ public class Gamemode {
 			// Spectator
 			dispatcher.register(literal("gmsp").executes(this::spectator));
 			dispatcher.register(literal("gm3").executes(this::spectator));
+			// Generic
+			dispatcher.register(literal("gm")
+				.then(literal("survival").executes(this::survival))
+				.then(literal("s").executes(this::survival))
+				.then(literal("0").executes(this::survival))
+				.then(literal("creative").executes(this::creative))
+				.then(literal("c").executes(this::creative))
+				.then(literal("1").executes(this::creative))
+				.then(literal("adventure").executes(this::adventure))
+				.then(literal("a").executes(this::adventure))
+				.then(literal("2").executes(this::adventure))
+				.then(literal("spectator").executes(this::spectator))
+				.then(literal("sp").executes(this::spectator))
+				.then(literal("3").executes(this::spectator))
+			);
 		});
-	}
-
-	private int generic(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'gm' activated");
-		String modeInput = StringArgumentType.getString(context, "mode");
-
-		ServerPlayerEntity player = context.getSource().getPlayer();
-		GameMode mode = null;
-		switch (modeInput.toLowerCase()) {
-			case "survival": case "s": case "0": mode = GameMode.SURVIVAL; break;
-			case "creative": case "c": case "1": mode = GameMode.CREATIVE; break;
-			case "adventure": case "a": case "2": mode = GameMode.ADVENTURE; break;
-			case "spectator": case "sp": case "3": mode = GameMode.SPECTATOR; break;
-		}
-		if (mode == null) {
-			sendMessage(player, false, modeInput);
-			TranslatableText invalid = new TranslatableText("command.error.gamemode.invalid");
-			throw new SimpleCommandExceptionType(invalid).create();
-		}
-
-		player.setGameMode(mode);
-		return Command.SINGLE_SUCCESS;
 	}
 
 	private int survival(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {

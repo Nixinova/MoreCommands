@@ -6,11 +6,13 @@
 - Y: Changes output messages
 - Z: Fixes issues
 
+## 1.1.1.0
+- Added autofill support to `/gm`.
+
 ## 1.1.0.0
-- Added `/home set <name> [<x> <y> <z>])` to store coordinates for teleporting.
+- Added `/home set <name> [<x> <y> <z>]` to store coordinates for teleporting.
 - Added `/home get <name>` to retrieve home coordinates.
 - Added `/home go <name>` to teleport to a stored home.
-- Changed translation string `"command.error.invalidGamemode"` to `"command.error.gamemode.invalid"`.
 
 ## 1.0.1.0
 - Added success message when changing gamemode.
