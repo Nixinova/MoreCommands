@@ -21,11 +21,12 @@ public class Main implements ModInitializer {
 		new Home().register();
 	}
 
-	public static void log(String msg) {
-		System.out.println("[MoreCMDs] " + msg);
+	public static void log(Object msg) {
+		System.out.println("[MoreCMDs] " + msg.toString());
 	}
-	public static void debug(String msg) {
-		Main.log("[DEBUG] " + msg);
+
+	public static void debug(Object msg) {
+		Main.log("[DEBUG] " + msg.toString());
 	}
 
 }

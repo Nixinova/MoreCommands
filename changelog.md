@@ -3,14 +3,15 @@
 **Format**: *W.X.Y.Z*
 - W: Breaks existing command syntax
 - X: Adds new command or command syntax
-- Y: Changes output messages
+- Y: Changes command suggestions or output
 - Z: Fixes issues
 
 ## 1.1.1.0
 - Added autofill support to `/gm`.
+- Changed commands to fail if the executor lacks necessary permissions.
 
 ## 1.1.0.0
-- Added `/home set <name> [<x> <y> <z>]` to store coordinates for teleporting.
+- Added `/home set <name> <x> <y> <z>` to store coordinates for teleporting.
 - Added `/home get <name>` to retrieve home coordinates.
 - Added `/home go <name>` to teleport to a stored home.
 

@@ -5,6 +5,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.command.argument.EntityArgumentType.player;
 
 import com.nixinova.morecmds.Main;
+import com.nixinova.morecmds.Permission;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -22,6 +23,7 @@ public class Gamemode {
 		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
 			// Survival
 			dispatcher.register(literal("gms").executes(this::survival));
+			//.then(argument("player", player())).executes(this::survival)
 			dispatcher.register(literal("gm0").executes(this::survival));
 			// Creative
 			dispatcher.register(literal("gmc").executes(this::creative));
@@ -53,38 +55,61 @@ public class Gamemode {
 	private int survival(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'gms' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		//player = EntityArgumentType.getPlayer(context, "player");
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			permissionMessage(player, "Survival");
+			return -1;
+		}
 		player.setGameMode(GameMode.SURVIVAL);
-		Gamemode.sendMessage(player, true, "Survival");
+		genericMessage(player, "Survival", true);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private int creative(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'gmc' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			permissionMessage(player, "Creative");
+			return -1;
+		}
 		player.setGameMode(GameMode.CREATIVE);
-		Gamemode.sendMessage(player, true, "Creative");
+		genericMessage(player, "Creative", true);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private int adventure(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'gma' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			permissionMessage(player, "Adventure");
+			return -1;
+		}
 		player.setGameMode(GameMode.ADVENTURE);
-		Gamemode.sendMessage(player, true, "Adventure");
+		genericMessage(player, "Adventure", true);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	private int spectator(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'gmsp' activated");
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			permissionMessage(player, "Spectator");
+			return -1;
+		}
 		player.setGameMode(GameMode.SPECTATOR);
-		Gamemode.sendMessage(player, true, "Spectator");
+		genericMessage(player, "Spectator", true);
 		return Command.SINGLE_SUCCESS;
 	}
 
-	private static void sendMessage(ServerPlayerEntity player, boolean success, String gamemode) {
+	private static void genericMessage(ServerPlayerEntity player, String gamemode, boolean success) {
 		String message = success ? "command.success.gamemode" : "command.fail.gamemode";
 		player.sendSystemMessage(new TranslatableText(message, gamemode), Util.NIL_UUID);
+	}
+
+	private static void permissionMessage(ServerPlayerEntity player, String gamemode) {
+		genericMessage(player, gamemode, false);
+		TranslatableText failMessage = new TranslatableText("command.gamemode.error.permission");
+		player.sendSystemMessage(failMessage, Util.NIL_UUID);
 	}
 
 }

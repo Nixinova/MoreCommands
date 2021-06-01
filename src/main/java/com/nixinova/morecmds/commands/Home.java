@@ -24,6 +24,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 import com.nixinova.morecmds.Main;
+import com.nixinova.morecmds.Permission;
 
 public class Home {
 
@@ -84,6 +85,10 @@ public class Home {
 		}
 	}
 
+	//private void setConfig(CommandContext<ServerCommandSource> context) {
+	//	context.getSource().getWorld();
+	//}
+
 	private int setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'home set' activated");
 		String name = StringArgumentType.getString(context, "name");
@@ -91,6 +96,11 @@ public class Home {
 		float y = FloatArgumentType.getFloat(context, "y");
 		float z = FloatArgumentType.getFloat(context, "z");
 		float[] coords = {x, y, z};
+
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			player.sendSystemMessage(new TranslatableText("command.home.error.permission"), Util.NIL_UUID);
+		}
 
 		homes.put(name, coords);
 		try {
@@ -111,7 +121,7 @@ public class Home {
 		}
 
 		TranslatableText output = new TranslatableText("command.success.home.set", name, coords[0], coords[1], coords[2]);
-		context.getSource().getPlayer().sendSystemMessage(output, Util.NIL_UUID);
+		player.sendSystemMessage(output, Util.NIL_UUID);
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -119,12 +129,19 @@ public class Home {
 		Main.log("Command 'home get' activated");
 		String name = StringArgumentType.getString(context, "name");
 		float[] coords = homes.get(name);
+
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
 			throw new SimpleCommandExceptionType(invalid).create();
 		}
+
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			player.sendSystemMessage(new TranslatableText("command.home.error.permission"), Util.NIL_UUID);
+		}
+
 		TranslatableText output = new TranslatableText("command.success.home.get", name, coords[0], coords[1], coords[2]);
-		context.getSource().getPlayer().sendSystemMessage(output, Util.NIL_UUID);
+		player.sendSystemMessage(output, Util.NIL_UUID);
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -137,8 +154,10 @@ public class Home {
 			throw new SimpleCommandExceptionType(invalid).create();
 		}
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		TranslatableText output = new TranslatableText("command.success.home.go", name);
-		player.sendSystemMessage(output, Util.NIL_UUID);
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			player.sendSystemMessage(new TranslatableText("command.home.error.permission"), Util.NIL_UUID);
+		}
+		player.sendSystemMessage(new TranslatableText("command.success.home.go", name), Util.NIL_UUID);
 		player.teleport(coords[0], coords[1], coords[2]);
 		return Command.SINGLE_SUCCESS;
 	}
