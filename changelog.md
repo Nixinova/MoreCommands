@@ -6,6 +6,10 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.2.0.0
+- Added `/home list` which lists all homes the player currently has set.
+- Added `/home remove` which removes a set home.
+
 ## 1.1.1.0
 - Added autofill support to `/gm`.
 - Changed commands to fail if the executor lacks necessary permissions.

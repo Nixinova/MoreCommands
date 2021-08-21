@@ -22,4 +22,6 @@ Adds various useful commands to the game.
 ### Teleportation
 - `/home set <name> <x> <y> <z>`: Store coordinates to teleport to later.
 - `/home get <name>`: Retrieve the coordinates a home is located at.
-- `/home go <name>`: Teleport to a given home.
+- `/home remove <name>`: Remove a given home.
+- `/home [go] <name>`: Teleport to a given home.
+- `/home list`: List all homes you have set.

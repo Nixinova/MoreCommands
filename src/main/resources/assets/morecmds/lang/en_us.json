@@ -1,7 +1,10 @@
 {
+	"command.info.home.list.entry": "Home '%s' is located at coordinates %d/%d/%d",
+	"command.info.home.list.total": "You have a total of %d homes set",
 	"command.success.gamemode": "Your game mode has been changed to %s",
 	"command.success.home.set": "Set home '%s' to coordinates %d/%d/%d",
 	"command.success.home.get": "Home '%s' is located at coordinates %d/%d/%d",
+	"command.success.home.remove": "Home '%s' has been removed",
 	"command.success.home.go": "Teleporting to home '%s'",
 	"command.fail.gamemode": "Failed to update game mode to %s",
 	"command.error.gamemode.permission": "You do not have permission to change game mode",
