@@ -24,6 +24,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 import com.nixinova.morecmds.Main;
+import com.nixinova.morecmds.Messages;
 import com.nixinova.morecmds.Permission;
 
 public class Home {
@@ -85,10 +86,6 @@ public class Home {
 		}
 	}
 
-	//private void setConfig(CommandContext<ServerCommandSource> context) {
-	//	context.getSource().getWorld();
-	//}
-
 	private int setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'home set' activated");
 		String name = StringArgumentType.getString(context, "name");
@@ -99,7 +96,8 @@ public class Home {
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			player.sendSystemMessage(new TranslatableText("command.home.error.permission"), Util.NIL_UUID);
+			Messages.permissionMessage("home", player);
+			return -1;
 		}
 
 		homes.put(name, coords);
@@ -115,10 +113,12 @@ public class Home {
 			}
 			homesFileBuffer.close();
 			Main.log(String.format("Wrote home '%s' to config file 'homes.txt'", name));
-		} catch (IOException err) {
+		}
+		catch (IOException err) {
 			Main.log("Error while creating config file 'homes.txt'");
 			System.err.println(err);
 		}
+
 
 		TranslatableText output = new TranslatableText("command.success.home.set", name, coords[0], coords[1], coords[2]);
 		player.sendSystemMessage(output, Util.NIL_UUID);

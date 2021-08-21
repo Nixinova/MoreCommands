@@ -2,13 +2,13 @@
 [![Last updated](https://img.shields.io/github/release-date/Nixinova/MoreCommands?label=updated&style=flat-square)](https://github.com/Nixinova/MoreCommands/releases)
 [![Downloads](https://cf.way2muchnoise.eu/short_487893.svg)](https://www.curseforge.com/minecraft/mc-mods/morecmds)
 
+- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/morecmds)
+
 # More Commands Mod
 
 ![MoreCMDs](src/main/resources/assets/morecmds/icon.png)
 
 Adds various useful commands to the game.
-
-- [CurseForge](https://www.curseforge.com/minecraft/mc-mods/morecmds)
 
 ## Commands
 

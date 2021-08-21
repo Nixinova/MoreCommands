@@ -15,7 +15,9 @@ public class Main implements ModInitializer {
 	public void onInitialize() {
 		// Initialise config directory
 		File configDir = CONFIG_DIR.toFile();
-		if (!configDir.exists()) configDir.mkdirs();
+		if (!configDir.exists()) {
+			configDir.mkdirs();
+		}
 		// Register commands
 		new Gamemode().register();
 		new Home().register();
