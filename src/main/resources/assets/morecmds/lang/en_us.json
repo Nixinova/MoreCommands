@@ -1,6 +1,6 @@
 {
 	"command.info.home.list.entry": "Home '%s' is located at coordinates %d/%d/%d",
-	"command.info.home.list.total": "You have a total of %d homes set",
+	"command.info.home.list.total": "You have a total of %d home(s) set",
 	"command.success.gamemode": "Your game mode has been changed to %s",
 	"command.success.home.set": "Set home '%s' to coordinates %d/%d/%d",
 	"command.success.home.get": "Home '%s' is located at coordinates %d/%d/%d",

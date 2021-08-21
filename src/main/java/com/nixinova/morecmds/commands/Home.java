@@ -67,31 +67,6 @@ public class Home {
 		});
 	}
 
-	public static void setupConfig() {
-		Main.log("Setting up config file 'homes.txt'");
-		try {
-			Scanner homesReader = new Scanner(homesFile);
-			while (homesReader.hasNextLine()) {
-				String line = homesReader.nextLine();
-				if (!line.matches(".+:\\d+\\.\\d+/\\d+\\.\\d+/\\d+\\.\\d+")) continue;
-				String[] data = line.split(":");
-				String name = data[0];
-				String[] coordsData = data[1].split("/");
-				float[] coords = {0, 0, 0};
-				for (int i = 0; i < coordsData.length; i++) {
-					coords[i] = Float.parseFloat(coordsData[i]);
-				}
-				if (name == null || coords.length != 3) continue;
-				homes.put(name, coords);
-			}
-			homesReader.close();
-			Main.log("Successfully loaded from config file 'homes.txt'");
-		}
-		catch (FileNotFoundException err) {
-			Main.log("Config file 'homes.txt' does not yet exist");
-		}
-	}
-
 	private int setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'home set' activated");
 		String name = StringArgumentType.getString(context, "name");
@@ -126,6 +101,7 @@ public class Home {
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
 			Messages.permissionMessage("home", player);
+			return -1;
 		}
 
 		homes.remove(name);
@@ -148,6 +124,7 @@ public class Home {
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
 			Messages.permissionMessage("home", player);
+			return -1;
 		}
 
 		TranslatableText output = new TranslatableText("command.success.home.get", name, coords[0], coords[1], coords[2]);
@@ -167,6 +144,7 @@ public class Home {
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
 			Messages.permissionMessage("home", player);
+			return -1;
 		}
 
 		player.sendSystemMessage(new TranslatableText("command.success.home.go", name), Util.NIL_UUID);
@@ -176,7 +154,13 @@ public class Home {
 
 	private int listHomes(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'home list' activated");
+
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			Messages.permissionMessage("home", player);
+			return -1;
+		}
+
 		int total = 0;
 		for (Map.Entry<String, float[]> entry : homes.entrySet()) {
 			String name = entry.getKey();
@@ -186,6 +170,32 @@ public class Home {
 		}
 		player.sendSystemMessage(new TranslatableText("command.info.home.list.total", total), Util.NIL_UUID);
 		return Command.SINGLE_SUCCESS;
+	}
+
+	public static void setupConfig() {
+		Main.log("Setting up config file 'homes.txt'");
+		try {
+			Scanner homesReader = new Scanner(homesFile);
+			while (homesReader.hasNextLine()) {
+				String line = homesReader.nextLine();
+				if (!line.matches(".+:\\d+\\.\\d+/\\d+\\.\\d+/\\d+\\.\\d+")) continue;
+				String[] data = line.split(":");
+				String name = data[0];
+				String[] coordsData = data[1].split("/");
+				float[] coords = {0, 0, 0};
+				for (int i = 0; i < coordsData.length; i++) {
+					coords[i] = Float.parseFloat(coordsData[i]);
+				}
+				if (name == null || coords.length != 3) continue;
+				homes.put(name, coords);
+			}
+			homesReader.close();
+			Main.log("Successfully loaded from config file 'homes.txt'");
+		}
+		catch (FileNotFoundException err) {
+			Main.log("Config file 'homes.txt' does not yet exist");
+			System.err.println(err);
+		}
 	}
 
 	private void writeConfigFile(String name) {
