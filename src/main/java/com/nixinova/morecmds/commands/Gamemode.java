@@ -9,6 +9,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+
 import com.nixinova.morecmds.Main;
 import com.nixinova.morecmds.Messages;
 import com.nixinova.morecmds.Permission;

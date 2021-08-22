@@ -3,7 +3,7 @@ package com.nixinova.morecmds.commands;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
-import static com.mojang.brigadier.arguments.FloatArgumentType.floatArg;
+import static net.minecraft.command.argument.BlockPosArgumentType.blockPos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,16 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+
 import com.nixinova.morecmds.Main;
 import com.nixinova.morecmds.Messages;
 import com.nixinova.morecmds.Permission;
@@ -39,11 +41,7 @@ public class Home {
 				literal("home").then(
 					literal("set").then(
 						argument("name", string()).then(
-							argument("x", floatArg()).then(
-								argument("y", floatArg()).then(
-									argument("z", floatArg()).executes(this::setHome)
-								)
-							)
+							argument("pos", blockPos()).executes(this::setHome)
 						)
 					)
 				).then(
@@ -70,10 +68,8 @@ public class Home {
 	private int setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		Main.log("Command 'home set' activated");
 		String name = StringArgumentType.getString(context, "name");
-		float x = FloatArgumentType.getFloat(context, "x");
-		float y = FloatArgumentType.getFloat(context, "y");
-		float z = FloatArgumentType.getFloat(context, "z");
-		float[] coords = {x, y, z};
+		BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
+		float[] coords = {pos.getX(), pos.getY(), pos.getZ()};
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {

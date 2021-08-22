@@ -6,6 +6,9 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.2.1.0
+- Added autocomplete support for coordinates in `/home set`.
+
 ## 1.2.0.1
 - Fixed permissions not being fully followed for `/home` commands.
 
