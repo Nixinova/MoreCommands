@@ -103,8 +103,7 @@ public class Home {
 		homes.remove(name);
 		writeConfigFile(name);
 
-		TranslatableText output = new TranslatableText("command.success.home.remove", name);
-		player.sendSystemMessage(output, Util.NIL_UUID);
+		Messages.genericMessage("success.home.remove", player, name);
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -123,8 +122,7 @@ public class Home {
 			return -1;
 		}
 
-		TranslatableText output = new TranslatableText("command.success.home.get", name, coords[0], coords[1], coords[2]);
-		player.sendSystemMessage(output, Util.NIL_UUID);
+		Messages.genericMessage("success.home.get", player, name, coords[0], coords[1], coords[2]);
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -143,8 +141,8 @@ public class Home {
 			return -1;
 		}
 
-		player.sendSystemMessage(new TranslatableText("command.success.home.go", name), Util.NIL_UUID);
 		player.teleport(coords[0], coords[1], coords[2]);
+		Messages.genericMessage("success.home.go", player, name);
 		return Command.SINGLE_SUCCESS;
 	}
 

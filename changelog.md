@@ -6,6 +6,12 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.3.0.0
+- Added `/shape box <x> <y> <z> <block>` to create a box out of a given block.
+- Added `/shape cube <size> <block>` to create a cube out of a given block.
+- Added `/shape pyramid <size> <block>` to create a pyramid out of a given block.
+- Added `/shape sphere <radius> <block>` to create a sphere out of a given block.
+
 ## 1.2.1.0
 - Added autocomplete support for coordinates in `/home set`.
 

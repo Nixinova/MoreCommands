@@ -4,8 +4,10 @@ import java.io.File;
 import java.nio.file.Path;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+
 import com.nixinova.morecmds.commands.Gamemode;
 import com.nixinova.morecmds.commands.Home;
+import com.nixinova.morecmds.commands.Shape;
 
 public class Main implements ModInitializer {
 
@@ -21,6 +23,7 @@ public class Main implements ModInitializer {
 		// Register commands
 		new Gamemode().register();
 		new Home().register();
+		new Shape().register();
 	}
 
 	public static void log(Object msg) {

@@ -25,3 +25,9 @@ Adds various useful commands to the game.
 - `/home remove <name>`: Remove a given home.
 - `/home [go] <name>`: Teleport to a given home.
 - `/home list`: List all homes you have set.
+
+### Building
+- `/shape box <x> <y> <z> <block>`: Create a box out of a given block.
+- `/shape cube <size> <block>`: Create a cube out of a given block.
+- `/shape pyramid <size> <block>`: Create a pyramid out of a given block.
+- `/shape sphere <radius> <block>`: Create a sphere out of a given block.

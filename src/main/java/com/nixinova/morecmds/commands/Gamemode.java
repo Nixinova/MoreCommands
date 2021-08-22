@@ -57,7 +57,7 @@ public class Gamemode {
 			return -1;
 		}
 		player.setGameMode(GameMode.SURVIVAL);
-		Messages.genericMessage("gamemode", player, true, "Survival");
+		Messages.genericMessage("success.gamemode", player, "Survival");
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -69,7 +69,7 @@ public class Gamemode {
 			return -1;
 		}
 		player.setGameMode(GameMode.CREATIVE);
-		Messages.genericMessage("gamemode", player, true, "Creative");
+		Messages.genericMessage("success.gamemode", player, "Creative");
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -81,7 +81,7 @@ public class Gamemode {
 			return -1;
 		}
 		player.setGameMode(GameMode.ADVENTURE);
-		Messages.genericMessage("gamemode", player, true, "Adventure");
+		Messages.genericMessage("success.gamemode", player, "Adventure");
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -93,7 +93,7 @@ public class Gamemode {
 			return -1;
 		}
 		player.setGameMode(GameMode.SPECTATOR);
-		Messages.genericMessage("gamemode", player, true, "Spectator");
+		Messages.genericMessage("success.gamemode", player, "Spectator");
 		return Command.SINGLE_SUCCESS;
 	}
 

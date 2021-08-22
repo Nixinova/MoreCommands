@@ -6,13 +6,12 @@ import net.minecraft.util.Util;
 
 public class Messages {
 
-	public static void genericMessage(String type, ServerPlayerEntity player, boolean success, Object... parts) {
-		String message = success ? "command.success." + type : "command.fail." + type;
-		player.sendSystemMessage(new TranslatableText(message, parts), Util.NIL_UUID);
+	public static void genericMessage(String text, ServerPlayerEntity player, Object... parts) {
+		player.sendSystemMessage(new TranslatableText("command." + text, parts), Util.NIL_UUID);
 	}
 
 	public static void permissionMessage(String type, ServerPlayerEntity player, Object... parts) {
-		genericMessage(type, player, false, parts);
+		genericMessage("error." + type, player, parts);
 		TranslatableText failMessage = new TranslatableText("command." + type + ".error.permission");
 		player.sendSystemMessage(failMessage, Util.NIL_UUID);
 	}

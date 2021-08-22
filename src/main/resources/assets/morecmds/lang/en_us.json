@@ -6,9 +6,11 @@
 	"command.success.home.get": "Home '%s' is located at coordinates %d/%d/%d",
 	"command.success.home.remove": "Home '%s' has been removed",
 	"command.success.home.go": "Teleporting to home '%s'",
-	"command.fail.gamemode": "Failed to update game mode to %s",
+	"command.success.shape": "Created shape '%s'",
+	"command.error.gamemode": "Failed to update game mode to %s",
 	"command.error.gamemode.permission": "You do not have permission to change game mode",
 	"command.error.home.notFound": "Home '%s' has not been set",
 	"command.error.home.permission": "You do not have permission to control home coordinates",
+	"command.error.shape.permission": "You do not have permission to set blocks",
 	"": ""
 }
