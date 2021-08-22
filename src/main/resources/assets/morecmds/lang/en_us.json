@@ -8,6 +8,7 @@
 	"command.success.home.go": "Teleporting to home '%s'",
 	"command.success.shape": "Created shape '%s'",
 	"command.error.gamemode": "Failed to update game mode to %s",
+	"command.error.gamemode.invalid": "Gamemode '%s' is invalid",
 	"command.error.gamemode.permission": "You do not have permission to change game mode",
 	"command.error.home.notFound": "Home '%s' has not been set",
 	"command.error.home.permission": "You do not have permission to control home coordinates",

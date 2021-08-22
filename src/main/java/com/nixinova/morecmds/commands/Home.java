@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -22,7 +23,6 @@ import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import com.nixinova.morecmds.Main;
@@ -34,6 +34,10 @@ public class Home {
 	static final File homesFile = Main.CONFIG_DIR.resolve("homes.txt").toFile();
 	static Map<String, float[]> homes = new HashMap<>();
 
+	private enum ArgType {
+		SET, REMOVE, GET, GO, LIST
+	}
+
 	public void register() {
 		Home.setupConfig();
 		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
@@ -41,129 +45,110 @@ public class Home {
 				literal("home").then(
 					literal("set").then(
 						argument("name", string()).then(
-							argument("pos", blockPos()).executes(this::setHome)
+							argument("pos", blockPos()).executes(ctx -> home(ctx, ArgType.SET))
 						)
 					)
 				).then(
 					literal("get").then(
-						argument("name", string()).executes(this::getHome)
+						argument("name", string()).executes(ctx -> home(ctx, ArgType.GET))
 					)
 				).then(
 					literal("remove").then(
-						argument("name", string()).executes(this::removeHome)
+						argument("name", string()).executes(ctx -> home(ctx, ArgType.REMOVE))
 					)
 				).then(
 					literal("go").then(
-						argument("name", string()).executes(this::goHome)
+						argument("name", string()).executes(ctx -> home(ctx, ArgType.GO))
 					)
 				).then(
-					literal("list").executes(this::listHomes)
+					literal("list").executes(ctx -> home(ctx, ArgType.LIST))
 				).then(
-					argument("name", string()).executes(this::goHome)
+					argument("name", string()).executes(ctx -> home(ctx, ArgType.GO))
 				)
 			);
 		});
 	}
 
-	private int setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'home set' activated");
+	private int home(CommandContext<ServerCommandSource> context, ArgType type) throws CommandSyntaxException {
+		Main.log("Command 'home %s' activated", type.toString().toLowerCase());
+
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+			Messages.noPermission("home", player);
+			return -1;
+		}
+
+		switch (type) {
+			case SET: setHome(context); break;
+			case REMOVE: removeHome(context); break;
+			case GET: getHome(context); break;
+			case GO: goHome(context); break;
+			case LIST: listHomes(context); break;
+		}
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private void setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		String name = StringArgumentType.getString(context, "name");
 		BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
 		float[] coords = {pos.getX(), pos.getY(), pos.getZ()};
 
-		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			Messages.permissionMessage("home", player);
-			return -1;
-		}
-
 		homes.put(name, coords);
-		writeConfigFile(name);
+		writeConfig(name);
 
-		TranslatableText output = new TranslatableText("command.success.home.set", name, coords[0], coords[1], coords[2]);
-		player.sendSystemMessage(output, Util.NIL_UUID);
-		return Command.SINGLE_SUCCESS;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		Messages.generic("success.home.home.set", player, name, coords[0], coords[1], coords[2]);
 	}
 
-	private int removeHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'home remove' activated");
+	private void removeHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		String name = StringArgumentType.getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
 			throw new SimpleCommandExceptionType(invalid).create();
-		}
-
-		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			Messages.permissionMessage("home", player);
-			return -1;
 		}
 
 		homes.remove(name);
-		writeConfigFile(name);
+		writeConfig(name);
 
-		Messages.genericMessage("success.home.remove", player, name);
-		return Command.SINGLE_SUCCESS;
+		ServerPlayerEntity player = context.getSource().getPlayer();
+		Messages.generic("success.home.remove", player, name);
 	}
 
-	private int getHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'home get' activated");
+	private void getHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		String name = StringArgumentType.getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
 			throw new SimpleCommandExceptionType(invalid).create();
 		}
-
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			Messages.permissionMessage("home", player);
-			return -1;
-		}
-
-		Messages.genericMessage("success.home.get", player, name, coords[0], coords[1], coords[2]);
-		return Command.SINGLE_SUCCESS;
+		Messages.generic("success.home.get", player, name, coords[0], coords[1], coords[2]);
 	}
 
-	private int goHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'home go' activated");
+	private void goHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		String name = StringArgumentType.getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
 			throw new SimpleCommandExceptionType(invalid).create();
 		}
-
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			Messages.permissionMessage("home", player);
-			return -1;
-		}
-
 		player.teleport(coords[0], coords[1], coords[2]);
-		Messages.genericMessage("success.home.go", player, name);
-		return Command.SINGLE_SUCCESS;
+		Messages.generic("success.home.go", player, name);
 	}
 
-	private int listHomes(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		Main.log("Command 'home list' activated");
-
+	private void listHomes(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
-			Messages.permissionMessage("home", player);
-			return -1;
-		}
-
 		int total = 0;
 		for (Map.Entry<String, float[]> entry : homes.entrySet()) {
 			String name = entry.getKey();
 			float[] coords = entry.getValue();
-			player.sendSystemMessage(new TranslatableText("command.info.home.list.entry", name, coords[0], coords[1], coords[2]), Util.NIL_UUID);
+			Messages.generic("info.home.list.entry", player, name, coords[0], coords[1], coords[2]);
 			total++;
 		}
-		player.sendSystemMessage(new TranslatableText("command.info.home.list.total", total), Util.NIL_UUID);
-		return Command.SINGLE_SUCCESS;
+		Messages.generic("info.home.list.total", player, total);
 	}
 
 	public static void setupConfig() {
@@ -192,7 +177,7 @@ public class Home {
 		}
 	}
 
-	private void writeConfigFile(String name) {
+	private void writeConfig(String name) {
 		try {
 			if (homesFile.createNewFile()) {
 				Main.log("Created config file 'homes.txt'");

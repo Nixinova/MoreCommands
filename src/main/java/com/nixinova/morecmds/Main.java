@@ -26,12 +26,8 @@ public class Main implements ModInitializer {
 		new Shape().register();
 	}
 
-	public static void log(Object msg) {
-		System.out.println("[MoreCMDs] " + msg.toString());
-	}
-
-	public static void debug(Object msg) {
-		Main.log("[DEBUG] " + msg.toString());
+	public static void log(Object msg, Object... parts) {
+		System.out.println("[MoreCMDs] " + String.format(msg.toString(), parts));
 	}
 
 }
