@@ -6,6 +6,9 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.3.1.0
+- Changed permissions for all commands to allow usage by trusted non-operators.
+
 ## 1.3.0.0
 - Added `/shape box <x> <y> <z> <block>` to create a box out of a given block.
 - Added `/shape cube <size> <block>` to create a cube out of a given block.

@@ -6,7 +6,6 @@ run/
 build/
 classes/
 out/
-*.jar
 
 # VSCode
 .settings/

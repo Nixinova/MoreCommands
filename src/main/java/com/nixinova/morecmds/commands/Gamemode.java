@@ -8,12 +8,11 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.GameMode;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 
 import com.nixinova.morecmds.Main;
 import com.nixinova.morecmds.Messages;
@@ -63,7 +62,7 @@ public class Gamemode {
 		}
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+		if (!context.getSource().hasPermissionLevel(Permission.TRUSTED)) {
 			Messages.noPermission("gamemode", player, gamemode);
 			return -1;
 		}

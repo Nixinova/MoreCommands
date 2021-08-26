@@ -2,6 +2,7 @@ package com.nixinova.morecmds;
 
 import java.io.File;
 import java.nio.file.Path;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 

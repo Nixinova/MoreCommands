@@ -3,7 +3,9 @@ package com.nixinova.morecmds.commands;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
+import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static net.minecraft.command.argument.BlockPosArgumentType.blockPos;
+import static net.minecraft.command.argument.BlockPosArgumentType.getBlockPos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,20 +47,24 @@ public class Home {
 				literal("home").then(
 					literal("set").then(
 						argument("name", string()).then(
-							argument("pos", blockPos()).executes(ctx -> home(ctx, ArgType.SET))
+							argument("pos", blockPos())
+							.executes(ctx -> home(ctx, ArgType.SET))
 						)
 					)
 				).then(
 					literal("get").then(
-						argument("name", string()).executes(ctx -> home(ctx, ArgType.GET))
+						argument("name", string())
+						.executes(ctx -> home(ctx, ArgType.GET))
 					)
 				).then(
 					literal("remove").then(
-						argument("name", string()).executes(ctx -> home(ctx, ArgType.REMOVE))
+						argument("name", string())
+						.executes(ctx -> home(ctx, ArgType.REMOVE))
 					)
 				).then(
 					literal("go").then(
-						argument("name", string()).executes(ctx -> home(ctx, ArgType.GO))
+						argument("name", string())
+						.executes(ctx -> home(ctx, ArgType.GO))
 					)
 				).then(
 					literal("list").executes(ctx -> home(ctx, ArgType.LIST))
@@ -73,7 +79,7 @@ public class Home {
 		Main.log("Command 'home %s' activated", type.toString().toLowerCase());
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		if (!context.getSource().hasPermissionLevel(Permission.OPERATOR)) {
+		if (!context.getSource().hasPermissionLevel(Permission.TRUSTED)) {
 			Messages.noPermission("home", player);
 			return -1;
 		}
@@ -90,8 +96,8 @@ public class Home {
 	}
 
 	private void setHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		String name = StringArgumentType.getString(context, "name");
-		BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
+		String name = getString(context, "name");
+		BlockPos pos = getBlockPos(context, "pos");
 		float[] coords = {pos.getX(), pos.getY(), pos.getZ()};
 
 		homes.put(name, coords);
@@ -102,7 +108,7 @@ public class Home {
 	}
 
 	private void removeHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		String name = StringArgumentType.getString(context, "name");
+		String name = getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
@@ -117,7 +123,7 @@ public class Home {
 	}
 
 	private void getHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		String name = StringArgumentType.getString(context, "name");
+		String name = getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
@@ -128,7 +134,7 @@ public class Home {
 	}
 
 	private void goHome(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		String name = StringArgumentType.getString(context, "name");
+		String name = getString(context, "name");
 		float[] coords = homes.get(name);
 		if (coords == null) {
 			TranslatableText invalid = new TranslatableText("command.error.home.notFound", name);
