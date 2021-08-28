@@ -10,6 +10,13 @@
 
 Adds various useful commands to the game.
 
+## Installation
+
+Download a version of MoreCommands for your chosen version of Minecraft from the [releases tab](https://github.com/Nixinova/MoreCommands/releases).
+Versions 1.16.x and 1.17.x are supported.
+
+This mod requires [Fabric](https://fabricmc.net/) alongside a corresponding [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files) version.
+
 ## Commands
 
 ### Gamemode

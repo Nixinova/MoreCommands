@@ -6,6 +6,9 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.3.2.0
+- Changed shape commands to now take away blocks from the executor's inventory if user is not opped.
+
 ## 1.3.1.0
 - Changed permissions for all commands to allow usage by trusted non-operators.
 
