@@ -122,10 +122,10 @@ public class Shape {
 
 		// Create shape
 		switch (shape) {
-			case BOX: createBox(data); break;
-			case CUBE: createCube(data); break;
-			case PYRAMID: createPyramid(data); break;
-			case SPHERE: createSphere(data); break;
+			case BOX -> createBox(data);
+			case CUBE -> createCube(data);
+			case PYRAMID -> createPyramid(data);
+			case SPHERE -> createSphere(data);
 		}
 
 		// Take away items if applicable

@@ -46,20 +46,16 @@ public class Gamemode {
 	private int gamemode(CommandContext<ServerCommandSource> context, String type) throws CommandSyntaxException {
 		Main.log("Command 'gm %s' activated", type);
 
-		String gamemode = "";
-		switch (type) {
-			case "s": case "survival": case "0":
-				gamemode = "Survival"; break;
-			case "c": case "creative": case "1":
-				gamemode = "Creative"; break;
-			case "a": case "adventure": case "2":
-				gamemode = "Adventure"; break;
-			case "sp": case "spectator": case "3":
-				gamemode = "Spectator"; break;
-			default:
+		String gamemode = switch (type) {
+			case "0", "s", "survival" -> "Survival";
+			case "1", "c", "creative" -> "Creative";
+			case "2", "a", "adventure" -> "Adventure";
+			case "3", "sp", "spectator" -> "Spectator";
+			default -> {
 				TranslatableText invalid = new TranslatableText("command.error.gamemode.invalid", type);
 				throw new SimpleCommandExceptionType(invalid).create();
-		}
+			}
+		};
 
 		ServerPlayerEntity player = context.getSource().getPlayer();
 		if (!context.getSource().hasPermissionLevel(Permission.TRUSTED)) {
@@ -68,10 +64,10 @@ public class Gamemode {
 		}
 
 		switch (gamemode) {
-			case "Survival": player.setGameMode(GameMode.SURVIVAL); break;
-			case "Creative": player.setGameMode(GameMode.CREATIVE); break;
-			case "Adventure": player.setGameMode(GameMode.ADVENTURE); break;
-			case "Spectator": player.setGameMode(GameMode.SPECTATOR); break;
+			case "Survival" -> player.setGameMode(GameMode.SURVIVAL);
+			case "Creative" -> player.setGameMode(GameMode.CREATIVE);
+			case "Adventure" -> player.setGameMode(GameMode.ADVENTURE);
+			case "Spectator" -> player.setGameMode(GameMode.SPECTATOR);
 		}
 
 		Messages.generic("success.gamemode", player, gamemode);

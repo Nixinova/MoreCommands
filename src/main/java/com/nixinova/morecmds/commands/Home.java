@@ -83,11 +83,11 @@ public class Home {
 		}
 
 		switch (type) {
-			case SET: setHome(context); break;
-			case REMOVE: removeHome(context); break;
-			case GET: getHome(context); break;
-			case GO: goHome(context); break;
-			case LIST: listHomes(context); break;
+			case SET -> setHome(context);
+			case REMOVE -> removeHome(context);
+			case GET -> getHome(context);
+			case GO -> goHome(context);
+			case LIST -> listHomes(context);
 		}
 
 		return Command.SINGLE_SUCCESS;
@@ -169,7 +169,6 @@ public class Home {
 				for (int i = 0; i < coordsData.length; i++) {
 					coords[i] = Float.parseFloat(coordsData[i]);
 				}
-				if (name == null || coords.length != 3) continue;
 				homes.put(name, coords);
 			}
 			homesReader.close();
