@@ -13,7 +13,9 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.block.Block;
 import net.minecraft.command.argument.BlockStateArgument;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -104,8 +106,10 @@ public class Shape {
 		Main.log("Command 'shape %s' activated", shapeName);
 		ShapeData data = new ShapeData(context);
 		ServerPlayerEntity player = context.getSource().getPlayer();
+		/* 1.16 * PlayerInventory inventory = player.inventory; //*/
+		/* 1.17+ */ PlayerInventory inventory = player.getInventory(); //*/
 		BlockStateArgument block = getBlockState(context, "block");
-		Item itemForm = Item.fromBlock(block.getBlockState().getBlock());
+		Item itemForm = block.getBlockState().getBlock().asItem();
 
 		// Player must have Member permission to use any part of the command
 		if (!context.getSource().hasPermissionLevel(Permission.MEMBER)) {
@@ -116,7 +120,7 @@ public class Shape {
 		// Player must then have Trusted permission to not have blocks removed for each use
 		if (!context.getSource().hasPermissionLevel(Permission.TRUSTED)) {
 			data.shouldTakeAwayItems();
-			int availableItems = player.inventory.count(itemForm);
+			int availableItems = inventory.count(itemForm);
 			data.setAvailableItems(availableItems);
 		}
 
@@ -132,8 +136,8 @@ public class Shape {
 		if (data.takeAwayItems) {
 			if (data.placedBlockCount > 0) Messages.generic("info.shape.removingBlocks", player, data.placedBlockCount);
 			Predicate<ItemStack> check = (stack) -> ItemStack.areItemsEqual(stack, itemForm.getDefaultStack());
-			player.inventory.remove(check, data.placedBlockCount, null /* expect error */);
-			Inventories.remove(player.inventory, check, data.placedBlockCount, false);
+			inventory.remove(check, data.placedBlockCount, null /* expect error */);
+			Inventories.remove(inventory, check, data.placedBlockCount, false);
 		}
 
 		// Success

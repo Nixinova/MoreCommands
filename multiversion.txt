@@ -1,0 +1,4 @@
+gradle.properties:
+- update minecraft_version, yarn_mappings, and fabric_api_version
+fabric.mod.json:
+- update depends.minecraft

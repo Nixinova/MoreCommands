@@ -13,3 +13,6 @@ out/
 bin/
 .classpath
 .project
+
+# IDEA
+.idea/
