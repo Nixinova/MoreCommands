@@ -38,3 +38,9 @@ This mod requires [Fabric](https://fabricmc.net/) alongside a corresponding [Fab
 - `/shape cube <size> <block>`: Create a cube out of a given block.
 - `/shape pyramid <size> <block>`: Create a pyramid out of a given block.
 - `/shape sphere <radius> <block>`: Create a sphere out of a given block.
+
+### Structures
+- `/structure "<keywords>" [<direction>]`: Generate any in-game structure in a specified compass direction.
+  - A full list of structures can be found in [structures.txt](src/main/resources/lists/structures.txt).
+  - The full structure name does not need to be used.
+    Entering `"village savanna house"` as the keywords retrieves a random structure from the `village/savanna/houses/` folder.

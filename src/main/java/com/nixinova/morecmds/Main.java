@@ -3,6 +3,7 @@ package com.nixinova.morecmds;
 import java.io.File;
 import java.nio.file.Path;
 
+import com.nixinova.morecmds.commands.Structure;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -21,10 +22,12 @@ public class Main implements ModInitializer {
 		if (!configDir.exists()) {
 			configDir.mkdirs();
 		}
+
 		// Register commands
 		new Gamemode().register();
 		new Home().register();
 		new Shape().register();
+		new Structure().register();
 	}
 
 	public static void log(Object msg, Object... parts) {

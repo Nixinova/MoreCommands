@@ -6,6 +6,9 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.4.0.0
+- Added `/structure "<keywords>" [<direction>]` to generate a structure in a given direction.
+
 ## 1.3.2.0
 - Changed shape commands to now take away blocks from the executor's inventory if user is not opped.
 

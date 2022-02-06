@@ -2,12 +2,14 @@
 	"command.info.home.list.entry": "Home '%s' is located at coordinates %d/%d/%d",
 	"command.info.home.list.total": "You have a total of %d home(s) set",
 	"command.info.shape.removingBlocks": "Removed %d blocks from your inventory to build the structure",
+	"command.info.structure.count": "Selected structure %d of %d results for structure search query '%s'",
 	"command.success.gamemode": "Your game mode has been changed to %s",
 	"command.success.home.set": "Set home '%s' to coordinates %d/%d/%d",
 	"command.success.home.get": "Home '%s' is located at coordinates %d/%d/%d",
 	"command.success.home.remove": "Home '%s' has been removed",
 	"command.success.home.go": "Teleporting to home '%s'",
 	"command.success.shape": "Successfully created shape '%s'",
+	"command.success.structure": "Successfully loaded structure '%s'",
 	"command.error.gamemode": "Failed to update game mode to %s",
 	"command.error.gamemode.invalid": "Gamemode '%s' is invalid",
 	"command.error.gamemode.permission": "You do not have permission to change game mode",
@@ -15,5 +17,7 @@
 	"command.error.home.permission": "You do not have permission to control home coordinates",
 	"command.error.shape.permission": "You do not have permission to set blocks",
 	"command.error.shape.noBlocks": "You do not have enough blocks to fill the remaining area",
+	"command.error.structure.notFound": "Search term '%s' found 0 structures",
+	"command.error.structure.direction.invalid": "Direction '%s' is invalid",
 	"": ""
 }
