@@ -6,6 +6,10 @@
 - Y: Changes command suggestions or output
 - Z: Fixes issues
 
+## 1.4.1.0
+- Changed the `/home` command to save homes per-world instead of globally.
+- Fixed untranslated home set success message.
+
 ## 1.4.0.0
 - Added `/structure "<keywords>" [<direction>]` to generate a structure in a given direction.
 
