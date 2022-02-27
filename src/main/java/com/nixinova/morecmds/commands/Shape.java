@@ -106,8 +106,7 @@ public class Shape {
 		Main.log("Command 'shape %s' activated", shapeName);
 		ShapeData data = new ShapeData(context);
 		ServerPlayerEntity player = context.getSource().getPlayer();
-		/* 1.16 * PlayerInventory inventory = player.inventory; //*/
-		/* 1.17+ */ PlayerInventory inventory = player.getInventory(); //*/
+		PlayerInventory inventory = player.getInventory();
 		BlockStateArgument block = getBlockState(context, "block");
 		Item itemForm = block.getBlockState().getBlock().asItem();
 

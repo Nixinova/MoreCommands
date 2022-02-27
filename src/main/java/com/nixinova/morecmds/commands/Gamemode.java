@@ -64,18 +64,10 @@ public class Gamemode {
 		}
 
 		switch (gamemode) {
-			/* 1.16
-			case "Survival" -> player.setGameMode(GameMode.SURVIVAL);
-			case "Creative" -> player.setGameMode(GameMode.CREATIVE);
-			case "Adventure" -> player.setGameMode(GameMode.ADVENTURE);
-			case "Spectator" -> player.setGameMode(GameMode.SPECTATOR);
-			//*/
-			//* 1.17+
 			case "Survival" -> player.changeGameMode(GameMode.SURVIVAL);
 			case "Creative" -> player.changeGameMode(GameMode.CREATIVE);
 			case "Adventure" -> player.changeGameMode(GameMode.ADVENTURE);
 			case "Spectator" -> player.changeGameMode(GameMode.SPECTATOR);
-			//*/
 		}
 
 		Messages.generic("success.gamemode", player, gamemode);

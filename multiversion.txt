@@ -1,6 +1,4 @@
 gradle.properties:
 - update minecraft_version, yarn_mappings, and fabric_api_version
 fabric.mod.json:
-- update depends.minecraft
-Gamemode.java & Shape.java:
-- uncomment version-specific code
+- change 'minecraft', 'java' and 'fabricloader' entries of 'depends' key
